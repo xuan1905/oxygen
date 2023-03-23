@@ -19,9 +19,6 @@ public class ResourceRepository {
         entityManager.persist(pool);
     }
     
-    public int getPoolDetail(int id) {
-        return 1;
-    }
     
     public Pool getPool(int id) {
     	return entityManager.find(Pool.class, id);
