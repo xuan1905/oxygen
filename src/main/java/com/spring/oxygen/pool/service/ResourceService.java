@@ -56,20 +56,23 @@ public class ResourceService {
 		Pool p = repository.getPool(req.getPoolId());
 		int[] values = p.getValues();
 		int length = values.length;
-		int quantile = this.getQuantile(length, req.getPercentile());
+		int quantileIndex = this.getQuantileIndex(length, req.getPercentile());
 		Arrays.sort(values);
+		int quantile = values[quantileIndex];
 		
 		res.setQuantile(quantile);
 		res.setCount(length);
 		return res;	
 	}
 	
-	private int getQuantile(Integer length, Float percentile) {
+	private int getQuantileIndex(Integer length, Float percentile) {
+		int indexOffset = 1;
 		Float converstionUnit = 1F;
 		Float floatedLength = length*converstionUnit;
-		Float quantile = percentile * (floatedLength + converstionUnit);
-		int roundedQuantile = (int) Math.round(quantile);
-		return roundedQuantile;
+		Float quantile = percentile * (floatedLength + converstionUnit) / 100;
+		int roundedQuantile = (int) Math.floor(quantile);
+		System.out.println("Debug: " + floatedLength + ", " + percentile+ ", " +  quantile + ", " + roundedQuantile);
+		return roundedQuantile - indexOffset;
 	}
 
 }
