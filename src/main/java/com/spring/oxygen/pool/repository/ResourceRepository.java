@@ -1,10 +1,12 @@
-package com.spring.oxygen.pool;
+package com.spring.oxygen.pool.repository;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
+
+import com.spring.oxygen.pool.domain.Pool;
 
 @Repository
 public class ResourceRepository {

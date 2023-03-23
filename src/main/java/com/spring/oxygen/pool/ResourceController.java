@@ -3,11 +3,16 @@ package com.spring.oxygen.pool;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import com.spring.oxygen.pool.contract.PoolQueryRequest;
+import com.spring.oxygen.pool.contract.PoolQueryResponse;
+import com.spring.oxygen.pool.contract.PoolSaveRequest;
+import com.spring.oxygen.pool.contract.PoolSaveResponse;
+import com.spring.oxygen.pool.service.ResourceService;
 
 @RestController
 @RequestMapping("/pool")
@@ -22,8 +27,9 @@ public class ResourceController {
     	return ResponseEntity.ok(res);
     }
 
-    @GetMapping("/v1/query/{id}")
-    public int getTeacherDetails(@PathVariable("id") int id){
-        return resourceService.getTeacherDetails(id);
+    @PostMapping("/v1/query")
+    public ResponseEntity<PoolQueryResponse> getTeacherDetails(@RequestBody PoolQueryRequest request){
+    	PoolQueryResponse res = resourceService.getQuantile(request);
+    	return ResponseEntity.ok(res);
     }
 }

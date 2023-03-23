@@ -1,0 +1,1 @@
+create table pool (id int4 not null, pool_values INTEGER ARRAY , primary key (id));

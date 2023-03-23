@@ -1,4 +1,4 @@
-package com.spring.oxygen.pool;
+package com.spring.oxygen.pool.contract;
 
 public class PoolSaveResponse {
 	private String status;

@@ -1,9 +1,16 @@
-package com.spring.oxygen.pool;
+package com.spring.oxygen.pool.service;
 
 import java.util.Arrays;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import com.spring.oxygen.pool.contract.PoolQueryRequest;
+import com.spring.oxygen.pool.contract.PoolQueryResponse;
+import com.spring.oxygen.pool.contract.PoolSaveRequest;
+import com.spring.oxygen.pool.contract.PoolSaveResponse;
+import com.spring.oxygen.pool.domain.Pool;
+import com.spring.oxygen.pool.repository.ResourceRepository;
 
 @Service
 public class ResourceService {
@@ -44,8 +51,25 @@ public class ResourceService {
 
 	}
 
-	public int getTeacherDetails(int id) {
-		return repository.getPoolDetail(id);
+	public PoolQueryResponse getQuantile(PoolQueryRequest req) {
+		PoolQueryResponse res = new PoolQueryResponse();
+		Pool p = repository.getPool(req.getPoolId());
+		int[] values = p.getValues();
+		int length = values.length;
+		int quantile = this.getQuantile(length, req.getPercentile());
+		Arrays.sort(values);
+		
+		res.setQuantile(quantile);
+		res.setCount(length);
+		return res;	
+	}
+	
+	private int getQuantile(Integer length, Float percentile) {
+		Float converstionUnit = 1F;
+		Float floatedLength = length*converstionUnit;
+		Float quantile = percentile * (floatedLength + converstionUnit);
+		int roundedQuantile = (int) Math.round(quantile);
+		return roundedQuantile;
 	}
 
 }

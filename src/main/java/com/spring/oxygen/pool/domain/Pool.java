@@ -1,4 +1,4 @@
-package com.spring.oxygen.pool;
+package com.spring.oxygen.pool.domain;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
