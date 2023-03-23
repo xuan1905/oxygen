@@ -11,11 +11,15 @@ import com.spring.oxygen.pool.contract.PoolSaveRequest;
 import com.spring.oxygen.pool.contract.PoolSaveResponse;
 import com.spring.oxygen.pool.domain.Pool;
 import com.spring.oxygen.pool.repository.ResourceRepository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @Service
 public class ResourceService {
 	@Autowired
 	ResourceRepository repository;
+	
+	Logger logger = LoggerFactory.getLogger(ResourceService.class);
 	private static final String APPEND_STATUS = "appended";
 	private static final String INSERT_STATUS = "inserted";
 	
@@ -71,7 +75,7 @@ public class ResourceService {
 		Float floatedLength = length*converstionUnit;
 		Float quantile = percentile * (floatedLength + converstionUnit) / 100;
 		int roundedQuantile = (int) Math.floor(quantile);
-		System.out.println("Debug: " + floatedLength + ", " + percentile+ ", " +  quantile + ", " + roundedQuantile);
+		logger.debug("Debug: " + floatedLength + ", " + percentile+ ", " +  quantile + ", " + roundedQuantile);
 		return roundedQuantile - indexOffset;
 	}
 
