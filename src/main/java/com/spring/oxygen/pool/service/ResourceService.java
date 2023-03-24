@@ -40,7 +40,7 @@ public class ResourceService {
 			
 			pool.setId(request.getPoolId());
 			pool.setValues(combinedValues);
-			repository.updatePool(request.getPoolId(), combinedValues);;
+			repository.updatePool(request.getPoolId(), combinedValues);
 			
 			res.setStatus(APPEND_STATUS);
 			return res;
