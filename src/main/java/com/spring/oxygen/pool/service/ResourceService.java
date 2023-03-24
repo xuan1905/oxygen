@@ -11,6 +11,10 @@ import com.spring.oxygen.pool.contract.PoolSaveRequest;
 import com.spring.oxygen.pool.contract.PoolSaveResponse;
 import com.spring.oxygen.pool.domain.Pool;
 import com.spring.oxygen.pool.repository.ResourceRepository;
+
+import cern.colt.list.DoubleArrayList;
+import cern.jet.stat.Descriptive;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -56,24 +60,36 @@ public class ResourceService {
 	}
 
 	public PoolQueryResponse getQuantile(PoolQueryRequest req) {
+		int breakLine = 100;
 		PoolQueryResponse res = new PoolQueryResponse();
 		Pool p = repository.getPool(req.getPoolId());
 		int[] values = p.getValues();
 		int length = values.length;
-		int quantileIndex = this.getQuantileIndex(length, req.getPercentile());
+		float percentile = req.getPercentile() / 100;
+		if (length <= breakLine) {
+		int quantileIndex = this.getQuantileIndex(length, percentile);
 		Arrays.sort(values);
 		int quantile = values[quantileIndex];
 		
 		res.setQuantile(quantile);
 		res.setCount(length);
 		return res;	
+		} else {
+			DoubleArrayList list = new DoubleArrayList();
+			Arrays.stream(values).forEach(i -> list.add((double) i));
+			int quantile = (int) Descriptive.quantile(list, percentile);
+			
+			res.setQuantile(quantile);
+			res.setCount(length);
+			return res;	
+		}
 	}
 	
 	private int getQuantileIndex(Integer length, Float percentile) {
 		int indexOffset = 1;
 		Float converstionUnit = 1F;
 		Float floatedLength = length*converstionUnit;
-		Float quantile = percentile * (floatedLength + converstionUnit) / 100;
+		Float quantile = percentile * (floatedLength + converstionUnit);
 		int roundedQuantile = (int) Math.floor(quantile);
 		logger.debug("Debug: " + floatedLength + ", " + percentile+ ", " +  quantile + ", " + roundedQuantile);
 		return roundedQuantile - indexOffset;
