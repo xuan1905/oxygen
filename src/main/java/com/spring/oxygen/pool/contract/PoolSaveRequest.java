@@ -1,7 +1,12 @@
 package com.spring.oxygen.pool.contract;
 
+import javax.validation.constraints.NotNull;
+
+
 public class PoolSaveRequest {
+	@NotNull
 	private int poolId;
+	@NotNull
 	private int[] poolValues;
 	
 	public int getPoolId() {

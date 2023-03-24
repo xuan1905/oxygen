@@ -1,7 +1,11 @@
 package com.spring.oxygen.pool.contract;
 
+import javax.validation.constraints.NotNull;
+
 public class PoolQueryRequest {
+	@NotNull
 	private int poolId;
+	@NotNull
 	private float percentile;
 	
 	public int getPoolId() {
