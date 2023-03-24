@@ -55,3 +55,5 @@ I also employed Java-native `System.arraycopy()`, which is efficient for positio
 
 For the pool query endpoint, Array was used as it's best suited for sorting. 
 
+## Tests
+Several preliminary unit and integration tests were implemented.

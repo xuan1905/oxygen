@@ -1,0 +1,1 @@
+insert into pool(id, pool_values) values (123, array[2, 2, 7, 5, 3, 1, 7, 7, 4, 8]);
